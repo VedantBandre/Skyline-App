@@ -1,0 +1,42 @@
+# Skyline App
+
+Android weather app for the Samsung Galaxy S24 Ultra and Galaxy Tab S9 FE. The goal is to see current weather, upcoming rain and the next few days in one glance, whether the app is open or the phone is sitting on the home screen.
+
+## Decisions
+
+- **Use Kotlin, Jetpack Compose, Jetpack Glance and WorkManager.** Compose renders the app, Glance renders Android App Widgets, and WorkManager handles background refresh. The app and widget can share one local data layer. This fits an Android-only first release with widgets at its core. [Glance](https://developer.android.com/develop/ui/compose/glance) · [WorkManager](https://developer.android.com/reference/androidx/work/PeriodicWorkRequest)
+- **Start a dedicated `skyline-app` repository when implementation begins.** Use an ordinary feature branch there for the device prototype. A long-lived branch of the website would mix two products with different builds and releases. A fork would carry the full web tree and its history. Use the web repository as the reference for weather fields and visuals. Track the provenance and license of any reused files. The web checkout has a GPLv3 license. [Skyline web repository](https://github.com/VedantBandre/Skyline)
+- **Reuse the weather provider through a small mobile API.** The inspected Skyline checkout at commit `44ab087` is a React/Vite web app. Its client calls WeatherAPI.com's `/v1/forecast.json` directly for three days, with German condition text. The checkout contains no Skyline backend for mobile to call. Leaflet and MapTiler are separate from forecast data. A Vercel function is a reasonable starting point for the mobile API given the existing web setup. [WeatherAPI docs](https://www.weatherapi.com/docs/)
+- **Keep Flutter and React Native as options if iOS becomes a priority.** Flutter could share a custom visual system across platforms. React Native could reuse pure TypeScript logic and types from the website, while the existing React DOM, Tailwind and Leaflet UI would need adaptation. Both still need platform widget integration. A WebView could bring the site into the app quickly, but it would still need a separate Android App Widget and shared data bridge. [Flutter widgets codelab](https://codelabs.developers.google.com/flutter-home-screen-widgets) · [React Native platform APIs](https://reactnative.dev/docs/native-platform)
+
+## What version 1 should feel like
+
+**Phone.** Open directly to current temperature, condition and today’s high and low. Put the next several hours and rain chance directly below, followed by the three-day forecast. Let the user search for a city, save it and switch between saved cities. Use the selected city for widgets. Start with Celsius and support light and dark appearance.
+
+**Tablet.** Use the same app with an adaptive two-column layout at expanded window widths. Show current conditions and hourly on one side and the multi-day outlook on the other. Use the compact layout when split-screen or window resizing leaves less room. [Android adaptive layouts](https://developer.android.com/develop/adaptive-apps/guides/support-different-display-sizes)
+
+**Glass look.** Use a weather-tinted gradient, translucent rounded panels, subtle edge highlights and short transitions. Keep temperature and rain chance legible in bright conditions and dark mode. Use simple tinted fills for widgets so the content reads against different wallpapers. Prototype live blur only after measuring scrolling on the Tab S9 FE. [Apple's Liquid Glass materials guide](https://developer.apple.com/design/human-interface-guidelines/materials)
+
+**Widgets.** Start with a compact temperature and condition widget and a wider widget with the next few hours and rain chance. Each opens the matching forecast in the app. For the lock screen, use the smallest readable layout supported by the host. Test the standard picker and Samsung Good Lock → LockStar separately. Treat Always On Display as a separate surface. Samsung documents LockStar for third-party widgets, and Google leaves lock-screen implementation and triggers to device manufacturers. The exact behavior on these two devices needs physical testing. [Samsung widget guide](https://www.samsung.com/uk/mobile-phone-buying-guide/what-are-widgets/) · [Android lock-screen widget FAQ](https://android-developers.googleblog.com/2025/03/widgets-on-lock-screen-faq.html)
+
+Optional foreground location, maps, radar, alerts and account sync can follow once the core app and widgets work. Saved cities cover the first release without a location permission prompt.
+
+## Data and refresh
+
+1. Define a small versioned mobile contract for city search and forecast. Return a stable place identifier, time zone, condition code, observation and fetch times, current conditions and hourly and daily forecasts. Start with three days. Keep local weather icons keyed by condition code so widgets do not need to load remote images.
+2. Give the mobile integration its own authorized provider credential or confirm a shared arrangement with WeatherAPI.com. Its published terms restrict a key or subscription to one application or service. Keep the mobile key server-side and add input validation, rate limits and a short cache keyed by location and language. Check the account's entitlement, credit and disclaimer requirements before the live integration. [Provider terms](https://www.weatherapi.com/terms) · [Plan limits](https://www.weatherapi.com/pricing)
+3. Share one persistent forecast cache between the app and widgets. Render cached data immediately while valid, refresh on app open when due, and refresh after a city change or manual request. A network-constrained WorkManager job can target roughly 30 minutes while widgets are installed. Android can defer the job. Deduplicate refreshes across app and widget instances and back off on errors. [Glance widget updates](https://developer.android.com/develop/ui/compose/glance/glance-app-widget)
+4. Track separate expiry for current conditions and forecasts. WeatherAPI.com's published cache limits are 60 minutes and 24 hours respectively. Show when conditions were observed and use an unavailable state when eligible data runs out. Test what One UI leaves visible if it defers the expiry redraw. Resolve provider expectations for a retained widget view before shipping if the host can keep an expired snapshot visible. [Provider cache terms](https://www.weatherapi.com/terms)
+
+## Build order and completion checks
+
+| Milestone | Deliverable | Done when |
+| --- | --- | --- |
+| 0 · Device proof | One debug APK with a native Glance widget and sample weather | Install on both devices. Record Android, One UI and LockStar versions. Test add, resize, tap and refresh on the home screen. Check the stock lock-screen picker, LockStar and AOD where offered. Record each outcome and take screenshots. If only LockStar works, document that setup. If neither lock-screen route works on a device, ship the home-screen widget there and mark lock-screen placement unsupported on that tested build. |
+| 1 · Forecast app | City search, saved cities, current/hourly/three-day forecasts and cache | Live forecast loads through the mobile API. Test ambiguous city names, time zones, no network, first run offline and provider errors. Verify cache expiry and that a release build contains no provider credential. |
+| 2 · Widgets and visual polish | Compact and wide live widgets, glass styling and tablet layout | Verify widget data matches the app after refresh and city changes. Test multiple widgets, process death, reboot, battery saver and offline recovery. Check portrait, landscape, split-screen, large text and dark mode on both devices. |
+| 3 · Personal release | Signed APK and short setup guide | Install and update on both devices using the same signing key, with saved settings retained. Measure APK size, cold start and scroll jank on the Tab S9 FE in a release build. Record the baseline and check both devices for visible scroll stutter and widget clipping. |
+
+**Start here next time.** Open Skyline App and work on milestone 0. Build a compact sample widget with temperature, condition and a tap target, then test the three Samsung surfaces before adding a live API or investing in the full design.
+
+**Evidence boundary.** The web architecture comes from the local Skyline checkout. Live website availability, provider account entitlements and the installed software versions on the two Galaxy devices are unverified.
