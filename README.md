@@ -2,13 +2,22 @@
 
 Native Android companion to the Skyline weather website. See [the roadmap](PLAN.md) for the release plan. The forecast build adds city search, saved cities and a three-day outlook for the Galaxy S24 Ultra and Galaxy Tab S9 FE.
 
-The **Widget sample** screen and the existing home-screen widget share one sample for Saarbrücken. **Change sample weather** switches between **19°C · Clear sky** and **12°C · Light rain**. The app stores the selection on the device and asks Android to redraw any Skyline widgets. The prototype uses fixed samples and works offline.
+## Home-screen widgets
+
+- **Skyline Compact** shows current sample conditions and temperature in a 2 × 1 default tile.
+- **Skyline Hourly** shows sample temperatures and rain chances in a 4 × 2 default tile. It shows up to four hourly slots depending on the available space and uses the compact view in especially tight placements.
+
+Both use the same Saarbrücken sample and switch from a sunny blue tint to a slate rain tint. Tap a tile to open **Widget sample**, or open it from the app. **Change sample weather** switches between **19°C · Clear sky** and **12°C · Light rain** and refreshes both tiles. The sample widgets work offline without API setup.
+
+The local `artifacts/Skyline-Widgets-Demo.apk` is the standalone debug build for this step. Install it, then add the tiles from the home-screen widget picker under **Skyline**.
+
+The stock Android 16 phone profile verified both picker entries and kept an existing Compact tile through the update. Hourly reflowed from four slots to three when narrowed. With Wi-Fi and mobile data disabled, switching to the rainy sample refreshed both tiles in place. Both layouts also rendered on the stock Android 16 landscape tablet profile.
 
 ## Forecast build
 
 The Android app shows current conditions, the next 12 available forecast hours with rain chances, and up to three forecast days. It stores up to eight cities, remembers the selected city, and formats times in the selected city's time zone. On wider displays the outlook appears alongside current and hourly weather.
 
-Saved weather can be shown offline within its age limits. Current conditions expire after one hour and the hourly and daily outlook after 24 hours, measured from the server's fetch time. The app discards expired entries while in use and shows when the current conditions were observed. The home-screen widget continues to show sample data.
+Saved weather can be shown offline within its age limits. Current conditions expire after one hour and the hourly and daily outlook after 24 hours, measured from the server's fetch time. The app discards expired entries while in use and shows when the current conditions were observed. The home-screen widgets use sample data.
 
 ### Run the emulator build
 
@@ -46,7 +55,7 @@ On 10 November 2026, stock Android 16 (build `BE2A.250530.026.D1`) accepted the 
 
 The emulator runs stock Android. One UI Home, Samsung's lock-screen picker, Good Lock's LockStar and Always On Display are pending on Galaxy hardware. [Samsung's Remote Test Lab](https://developer.samsung.com/remote-test-lab) can provide remote Galaxy access with a Samsung Developer account, subject to device and feature availability. [Samsung's emulator skin guide](https://developer.samsung.com/galaxy-emulator-skin/guide.html)
 
-For a Galaxy check, install the debug APK, add **Skyline weather** from the home-screen widget picker, then try the built-in lock-screen picker and **Good Lock → LockStar**. Check Always On Display separately where offered. Record the Android, One UI and LockStar versions with the results.
+For a Galaxy check, install the debug APK, add **Skyline Compact** or **Skyline Hourly** from the home-screen widget picker, then try the built-in lock-screen picker and **Good Lock → LockStar**. Check Always On Display separately where offered. Record the Android, One UI and LockStar versions with the results.
 
 ## Build locally
 

@@ -31,8 +31,8 @@ android {
         applicationId = "com.skyline.weather"
         minSdk = 31
         targetSdk = 36
-        versionCode = 2
-        versionName = "0.2.0"
+        versionCode = 3
+        versionName = "0.3.0"
         val releaseOrigin = weatherBaseUrl.takeIf { weatherUri?.scheme == "https" }.orEmpty()
         buildConfigField("String", "WEATHER_BASE_URL", "\"$releaseOrigin\"")
     }

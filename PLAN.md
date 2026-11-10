@@ -41,4 +41,6 @@ Optional foreground location, maps, radar, alerts and account sync can follow on
 
 **Milestone 1 status · 10 November 2026.** The Android forecast screen and the mobile API are implemented. A dedicated provider credential and a live API deployment are pending. The sample widget remains available while the forecast app is developed.
 
+**Milestone 2 layout status · 10 November 2026.** Skyline Compact and Skyline Hourly now have separate launcher entries and adaptive layouts using the offline widget sample. Connecting them to live saved-city forecasts and background refresh follows mobile API setup. Galaxy-specific lock-screen placement and AOD remain pending.
+
 **Evidence boundary.** The web architecture comes from the local Skyline checkout. Live website availability, provider account entitlements and the installed software versions on the two Galaxy devices are unverified.

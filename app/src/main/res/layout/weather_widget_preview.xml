@@ -5,7 +5,7 @@
     android:background="@drawable/widget_surface"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="6dp">
+    android:padding="3dp">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,13 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sample_clear"
-        android:textColor="#FFFFFF"
-        android:textSize="12sp" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sample_label"
-        android:textColor="#D1E6FF"
+        android:text="@string/widget_compact_preview"
+        android:textColor="#D9EBFF"
         android:textSize="11sp" />
 </LinearLayout>

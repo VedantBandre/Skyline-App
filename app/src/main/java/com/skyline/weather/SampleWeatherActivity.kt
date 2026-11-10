@@ -70,6 +70,7 @@ class SampleWeatherActivity : ComponentActivity() {
                                 try {
                                     switchSampleWeather(applicationContext)
                                     WeatherWidget().updateAll(applicationContext)
+                                    HourlyWeatherWidget().updateAll(applicationContext)
                                 } catch (error: CancellationException) {
                                     throw error
                                 } catch (error: Exception) {

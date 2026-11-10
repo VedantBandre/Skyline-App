@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Skyline</string>
-    <string name="widget_name">Skyline weather</string>
-    <string name="widget_description">Sample temperature and conditions. Tap to open Skyline.</string>
+    <string name="widget_name">Skyline Compact</string>
+    <string name="widget_description">Sample temperature and conditions in a compact tile.</string>
+    <string name="widget_hourly_name">Skyline Hourly</string>
+    <string name="widget_hourly_description">Sample hourly temperatures and rain chances in a wider tile.</string>
+    <string name="widget_hourly_label">Sample · Next hours</string>
+    <string name="widget_hourly_preview">18:00 · 19°C · 5% rain</string>
     <string name="sample_label">Sample</string>
     <string name="sample_location">Saarbrücken</string>
     <string name="sample_clear">Clear sky</string>
     <string name="sample_rain">Light rain</string>
     <string name="sample_temperature">%1$d°C</string>
+    <string name="widget_compact_preview">Clear sky · Sample</string>
     <string name="widget_preview_temperature">19°C</string>
     <string name="prototype_label">WIDGET PROTOTYPE</string>
     <string name="switch_sample">Change sample weather</string>
-    <string name="prototype_help">Add the Skyline widget to your home screen, then change the sample weather here. Return to the widget to check that it updated.</string>
+    <string name="prototype_help">Add Skyline Compact or Skyline Hourly from the home-screen widget picker. Switch the sample here to update both tiles.</string>
     <string name="refresh_failed">Couldn’t refresh the widget. Try changing the sample again.</string>
     <string name="weather_service_unconfigured">The weather service isn’t configured for this build.</string>
     <string name="find_city">Find a city</string>

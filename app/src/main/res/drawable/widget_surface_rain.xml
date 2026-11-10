@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="315"
+        android:startColor="#EF465B7C"
+        android:centerColor="#F2303E59"
+        android:endColor="#F2182439" />
+    <corners android:radius="@android:dimen/system_app_widget_background_radius" />
+    <stroke android:width="1dp" android:color="#80CEDBFF" />
+</shape>
