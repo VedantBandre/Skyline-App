@@ -56,7 +56,7 @@ private fun WeatherTile(weather: SampleWeather) {
             .appWidgetBackground()
             .background(ImageProvider(R.drawable.widget_surface))
             .cornerRadius(android.R.dimen.system_app_widget_background_radius)
-            .clickable(actionStartActivity(Intent(context, MainActivity::class.java)))
+            .clickable(actionStartActivity(Intent(context, SampleWeatherActivity::class.java)))
             .padding(6.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalAlignment = Alignment.CenterVertically,

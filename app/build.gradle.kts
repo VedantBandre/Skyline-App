@@ -1,9 +1,26 @@
+import java.net.URI
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
+}
+
+val weatherBaseUrl = providers.gradleProperty("skylineWeatherBaseUrl")
+    .orElse("")
+    .get()
+    .trim()
+    .trimEnd('/')
+val weatherUri = weatherBaseUrl.takeIf(String::isNotEmpty)?.let(::URI)
+if (weatherUri != null) {
+    require(
+        (weatherUri.scheme == "https" ||
+            (weatherUri.scheme == "http" && weatherUri.host == "10.0.2.2")) &&
+            weatherUri.host != null && weatherUri.rawUserInfo == null &&
+            weatherUri.rawQuery == null && weatherUri.rawFragment == null &&
+            weatherUri.path.isEmpty(),
+    ) { "skylineWeatherBaseUrl must be an HTTPS origin or the debug emulator host." }
 }
 
 android {
@@ -14,19 +31,23 @@ android {
         applicationId = "com.skyline.weather"
         minSdk = 31
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.2.0"
+        val releaseOrigin = weatherBaseUrl.takeIf { weatherUri?.scheme == "https" }.orEmpty()
+        buildConfigField("String", "WEATHER_BASE_URL", "\"$releaseOrigin\"")
     }
 
     buildTypes {
         debug {
             applicationIdSuffix = ".prototype"
-            versionNameSuffix = "-prototype"
+            versionNameSuffix = "-debug"
+            buildConfigField("String", "WEATHER_BASE_URL", "\"$weatherBaseUrl\"")
         }
     }
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     compileOptions {

@@ -39,4 +39,6 @@ Optional foreground location, maps, radar, alerts and account sync can follow on
 
 **Milestone 0 status · 10 November 2026.** The sample APK passed install, launch, home-screen widget placement, horizontal resize, tap and sample updates in a stock Android 16 emulator. The app and widget worked in phone and tablet display profiles. Galaxy-specific lock-screen placement and AOD are pending. See [the README](README.md) for verification details and the Samsung remote testing route.
 
+**Milestone 1 status · 10 November 2026.** The Android forecast screen and the mobile API are implemented. A dedicated provider credential and a live API deployment are pending. The sample widget remains available while the forecast app is developed.
+
 **Evidence boundary.** The web architecture comes from the local Skyline checkout. Live website availability, provider account entitlements and the installed software versions on the two Galaxy devices are unverified.

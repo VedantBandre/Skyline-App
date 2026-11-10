@@ -6,3 +6,5 @@ local.properties
 *.iml
 *.apk
 /artifacts/
+/server/.env
+/server/.env.*

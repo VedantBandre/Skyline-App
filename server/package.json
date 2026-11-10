@@ -1,0 +1,10 @@
+{
+  "name": "skyline-mobile-api",
+  "private": true,
+  "engines": { "node": "24.x" },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env dev.mjs",
+    "fixture": "node test/fixture.mjs",
+    "test": "node --test --test-isolation=none test/weather.test.mjs"
+  }
+}
